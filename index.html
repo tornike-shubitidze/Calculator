@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./display.css">
+    <script src="./js/main.js"></script>
+    <title>Calculator</title>
+</head>
+
+<body>
+    <div id="frame">
+        <div id="display"> </div>
+        <div id="result"> </div>
+        <button id="clear-btn" onclick="clearAll()"> clr </button>
+
+        <!-- onclick="getButton(this)" -->
+
+        <div id="numbers">
+            <button class="number" value="1" onclick="getButton(this)"> 1 </button>
+            <button class="number" value="2" onclick="getButton(this)"> 2 </button>
+            <button class="number" value="3" onclick="getButton(this)"> 3 </button><br>
+            <button class="number" value="4" onclick="getButton(this)"> 4 </button>
+            <button class="number" value="5" onclick="getButton(this)"> 5 </button>
+            <button class="number" value="6" onclick="getButton(this)"> 6 </button><br>
+            <button class="number" value="7" onclick="getButton(this)"> 7 </button>
+            <button class="number" value="8" onclick="getButton(this)"> 8 </button>
+            <button class="number" value="9" onclick="getButton(this)"> 9 </button><br>
+            <button class="number" value="0" onclick="getButton(this)"> 0 </button>
+            <button class="number" value="." onclick="getButton(this)"> . </button>
+            <button id="delete-btn" class='operation' onclick="deleteNumber()"> del </button>
+        </div>
+        <div id="math-operators">
+            <button class="number operation" value="+" onclick="getButton(this)">+ </button>
+            <button class="number operation" value="-" onclick="getButton(this)">- </button>
+            <button class="number operation" value="*" onclick="getButton(this)">x </button>
+            <button class="number operation" value="/" onclick="getButton(this)">÷ </button>
+            <button id="equal" onclick="calculateResult()"> = </button>
+        </div>
+    </div>
+</body>
+
+</html>
