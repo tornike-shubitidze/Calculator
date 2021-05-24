@@ -1,32 +1,5 @@
 'use strict'
 
-// let buttons = Array.from(document.getElementsByClassName("number"));
-// console.log(document.getElementsByClassName("number"))
-
-// buttons.map(button => {
-//     button.addEventListener('click', (e) => {
-//         console.log(e.innerText)
-//         if (e.getAttribute('value') === '.' && document.getElementById('result').innerText.includes('.')) return;
-//         if (document.getElementById('result').innerText == '' && (e.innerText === '+' || e.innerText === '-' || e.innerText === '÷' || e.innerText === 'x')) return;
-//         return document.getElementById('result').innerText += e.getAttribute('value');
-//     })
-// });
-
-
-// let displayEl = document.getElementById('display');
-// let resultEl = document.getElementById('result');
-
-let numbers = [2, '+', 2, '/', 2];
-
-let result = numbers.reduce(function (accumulator, currentValue) {
-    if (currentValue == '+') {
-        return accumulator + currentValue
-    }
-})
-
-console.log(result);
-
-
 function clearAll() {
     document.getElementById('display').innerText = '';
     document.getElementById('result').innerText = '';
@@ -36,7 +9,7 @@ function clearAll() {
 function calculateResult() {
     if (!document.getElementById('result').innerText) return
     document.getElementById('display').innerText = document.getElementById('result').innerText + '=';
-    document.getElementById('result').innerText = eval(result.innerText);
+    document.getElementById('result').innerText = eval(document.getElementById('result').innerText);
 }
 
 function getButton(e) {
