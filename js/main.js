@@ -1,7 +1,5 @@
 'use strict'
 
-
-
 // let buttons = Array.from(document.getElementsByClassName("number"));
 // console.log(document.getElementsByClassName("number"))
 
@@ -15,13 +13,18 @@
 // });
 
 
-
-
-
-
-
 // let displayEl = document.getElementById('display');
 // let resultEl = document.getElementById('result');
+
+let numbers = [2, '+', 2, '/', 2];
+
+let result = numbers.reduce(function (accumulator, currentValue) {
+    if (currentValue == '+') {
+        return accumulator + currentValue
+    }
+})
+
+console.log(result);
 
 
 function clearAll() {
