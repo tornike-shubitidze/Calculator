@@ -2,23 +2,26 @@
 
 
 
-// let buttons = Array.from(document.getElementsByClassName("number"));
-// console.log(document.getElementsByClassName("number"))
+let buttons = Array.from(document.getElementsByClassName("number"));
 
-// buttons.map(button => {
-//     button.addEventListener('click', (e) => {
-//         console.log(e.innerText)
-//         if (e.getAttribute('value') === '.' && document.getElementById('result').innerText.includes('.')) return;
-//         if (document.getElementById('result').innerText == '' && (e.innerText === '+' || e.innerText === '-' || e.innerText === '÷' || e.innerText === 'x')) return;
-//         return document.getElementById('result').innerText += e.getAttribute('value');
-//     })
-// });
+
+buttons.map(button => {
+    button.addEventListener('click', (e) => {
+        let eValue = e.target.attributes['value'].value
+
+        if (eValue === '.' && document.getElementById('result').innerText.includes('.')) return;
+        if (document.getElementById('result').innerText == '' && (eValue === '+' || eValue === '-' || eValue === '÷' || eValue === 'x')) return;
+        return document.getElementById('result').innerText += eValue;
+    })
+});
 
 
 
 
 let displayEl = document.getElementById('display');
 let resultEl = document.getElementById('result');
+
+
 
 
 function clearAll() {
@@ -35,7 +38,7 @@ function calculateResult() {
 
 function getButton(e) {
     if (e.getAttribute('value') === '.' && resultEl.innerText.includes('.')) return;
-    if (resultEl.innerText == '' && (e.innerText === '+' || e.innerText === '-' || e.innerText === '÷' || e.innerText === 'x')) return;
+    if (resultEl.innerText == '' && (e.getAttribute('value') === '+' || e.getAttribute('value') === '-' || e.getAttribute('value') === '÷' || e.getAttribute('value') === 'x')) return;
     resultEl.innerText += e.getAttribute('value');
 }
 
@@ -43,3 +46,6 @@ function getButton(e) {
 function deleteNumber() {
     resultEl.innerText = resultEl.innerText.slice(0, -1);
 }
+
+
+
