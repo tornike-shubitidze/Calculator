@@ -17,32 +17,29 @@
 
 
 
-
-
-
-// let displayEl = document.getElementById('display');
-// let resultEl = document.getElementById('result');
+let displayEl = document.getElementById('display');
+let resultEl = document.getElementById('result');
 
 
 function clearAll() {
-    document.getElementById('display').innerText = '';
-    document.getElementById('result').innerText = '';
+    displayEl.innerText = '';
+    resultEl.innerText = '';
 }
 
 
 function calculateResult() {
-    if (!document.getElementById('result').innerText) return
-    document.getElementById('display').innerText = document.getElementById('result').innerText + '=';
-    document.getElementById('result').innerText = eval(result.innerText);
+    if (!resultEl.innerText) return
+    displayEl.innerText = resultEl.innerText + '=';
+    resultEl.innerText = eval(resultEl.innerText);
 }
 
 function getButton(e) {
-    if (e.getAttribute('value') === '.' && document.getElementById('result').innerText.includes('.')) return;
-    if (document.getElementById('result').innerText == '' && (e.innerText === '+' || e.innerText === '-' || e.innerText === '÷' || e.innerText === 'x')) return;
-    document.getElementById('result').innerText += e.getAttribute('value');
+    if (e.getAttribute('value') === '.' && resultEl.innerText.includes('.')) return;
+    if (resultEl.innerText == '' && (e.innerText === '+' || e.innerText === '-' || e.innerText === '÷' || e.innerText === 'x')) return;
+    resultEl.innerText += e.getAttribute('value');
 }
 
 
 function deleteNumber() {
-    document.getElementById('result').innerText = document.getElementById('result').innerText.slice(0, -1);
+    resultEl.innerText = resultEl.innerText.slice(0, -1);
 }
