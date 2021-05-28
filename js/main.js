@@ -1,32 +1,55 @@
 'use strict'
 
+let displayEl = document.getElementById('display');
+let resultEl = document.getElementById('result');
+
 function clearAll() {
-    document.getElementById('display').innerText = '';
-    document.getElementById('result').innerText = '';
+    displayEl.innerText = '';
+    resultEl.innerText = '';
 }
 
 
 function calculateResult() {
-    if (!document.getElementById('result').innerText) return
-    document.getElementById('display').innerText = document.getElementById('result').innerText + '=';
-    document.getElementById('result').innerText = eval(document.getElementById('result').innerText);
+    if (!resultEl.innerText) return;
+    if (resultEl.innerText.slice(-1) === '+' || resultEl.innerText.slice(-1) === '-' || resultEl.innerText.slice(-1) === '*' || resultEl.innerText.slice(-1) === '/' || resultEl.innerText.slice(-1) === '.')
+        return displayEl.innerText = resultEl.innerText + '=';
+    if (resultEl.innerText = '0/0') return resultEl.innerText = '0';
+
+    resultEl.innerText = eval(resultEl.innerText);
 }
 
 function getButton(e) {
-    if (e.getAttribute('value') === '.' && document.getElementById('result').innerText.includes('.')) return;
-    if (document.getElementById('result').innerText == '' && (e.innerText === '+' || e.innerText === '-' || e.innerText === '÷' || e.innerText === 'x')) return;
-    document.getElementById('result').innerText += e.getAttribute('value');
+
+    if (resultEl.innerText === '' && (e.innerText === '+' || e.innerText === '-' || e.innerText === '÷' || e.innerText === 'x')) return;
+
+    if ((e.getAttribute('value') === '+' || e.getAttribute('value') === '-' || e.getAttribute('value') === '/' || e.getAttribute('value') === '*') && (resultEl.innerText.endsWith('+') || resultEl.innerText.endsWith('-') || resultEl.innerText.endsWith('*') || resultEl.innerText.endsWith('/')))
+        return resultEl.innerText = resultEl.innerText.slice(0, -1) + e.getAttribute('value');
+
+    if (e.getAttribute('value') === '.' && resultEl.innerText.endsWith('.')) return;
+
+    if (e.getAttribute('value') === '0' && resultEl.innerText == '0') return;
+
+    if (e.getAttribute('value') === '0' && (resultEl.innerText.slice(-2) == ('+0') || resultEl.innerText.slice(-2) == '-0' || resultEl.innerText.slice(-2) == '/0' || resultEl.innerText.slice(-2) == '*0')) return;
+
+    if (resultEl.innerText == '0' && (e.getAttribute('value') === '.' || e.getAttribute('value') === '+' || e.getAttribute('value') === '-' || e.getAttribute('value') === '/' || e.getAttribute('value') === '*'))
+        return resultEl.innerText += e.getAttribute('value');
+
+    if ((e.getAttribute('value') !== '0' && resultEl.innerText == '0') || (resultEl.innerText.endsWith('.') && (e.getAttribute('value') == ('+') || e.getAttribute('value') == ('-') || e.getAttribute('value') == ('*') || e.getAttribute('value') == ('/'))))
+        return resultEl.innerText = resultEl.innerText.slice(0, -1) + e.getAttribute('value');
+
+    // if (e.getAttribute('value') === '0' && resultEl.innerText.slice(-2) == ('+0' || '-0' || '/0' || '*0')) return;  // ესე დაწერისას ('+0' || '-0' || '/0' || '*0') არ მუშაობს
+    if (e.getAttribute('value') !== '.' && (resultEl.innerText.slice(-2) == ('+0') || resultEl.innerText.slice(-2) == '-0' || resultEl.innerText.slice(-2) == '/0' || resultEl.innerText.slice(-2) == '*0')) return resultEl.innerText = resultEl.innerText.slice(0, -1) + e.getAttribute('value');
+
+    if ((e.getAttribute('value') === '.' && resultEl.innerText == '') || (e.getAttribute('value') === '.' && (resultEl.innerText.endsWith('+') || resultEl.innerText.endsWith('-') || resultEl.innerText.endsWith('/') || resultEl.innerText.endsWith('*')))) return resultEl.innerText += '0.';
+
+    // if (e.getAttribute('value') === '.' && resultEl.innerText.lastIndexOf('.') !== -1 && !resultEl.innerText.slice(resultEl.innerText.lastIndexOf('.') + 1).includes('+' || '-' || '*' || '/')) return;
+    if (e.getAttribute('value') === '.' && resultEl.innerText.lastIndexOf('.') !== -1 && !(resultEl.innerText.slice(resultEl.innerText.lastIndexOf('.') + 1).includes('-') || resultEl.innerText.slice(resultEl.innerText.lastIndexOf('.') + 1).includes('+') || resultEl.innerText.slice(resultEl.innerText.lastIndexOf('.') + 1).includes('/') || resultEl.innerText.slice(resultEl.innerText.lastIndexOf('.') + 1).includes('*'))) return;
+
+
+    resultEl.innerText += e.getAttribute('value');
 }
 
 
 function deleteNumber() {
-    document.getElementById('result').innerText = document.getElementById('result').innerText.slice(0, -1);
+    resultEl.innerText = resultEl.innerText.slice(0, -1);
 }
-
-
-// ბაგები:
-// 1) მათემატიკურ მოქმედებებს რამდენჯერაც დააწვები იმდენ წერს მიყოლებით;
-// 2) ათწილადის ნიშანს მეორედ აღარ წერს, ანუ ორ ან მეტ ათწილად რიცხვს ვერ დავწერთ რომ გვინდოდეს;
-// 3) უდრისის შემდეგ თუ ავკრეფთ ციფრებს(მათემატიკურ მოქმედებები უნდა ემატებოდეს ისედაც როგორც არის ეხლა),
-//     არსებულ რიცხვზე(ანუ უკვე ნაჩვენებ გამოთვლილ რიცხვს) აგრძელებს ციფრების მიდგმას.უნდა განულდეს ან წაიშალოს
-// და ხელახლა დაიწყოს
