@@ -18,7 +18,8 @@ function calculateResult() {
     let operators = ['+', '-', '/', '*', '.'];
     let lastLetter = resultEl.innerText.slice(-1);
 
-    if (!resultEl.innerText) return;
+    if (!resultEl.innerText)
+        return;
 
     if (operators.some(operator => operator === lastLetter))
         return alert(`Cann't be end with ' ${lastLetter} '`);
@@ -27,25 +28,23 @@ function calculateResult() {
 
     displayEl.innerText += resultEl.innerText + '=';
 
-    // if (eval(resultEl.innerText).length > 16)
-    //     return resultEl.innerText = parseFloat(eval(resultEl.innerText)).toFixed(15);
+    if (isFinite(eval(resultEl.innerText)))
+        return resultEl.innerText = parseFloat(eval(resultEl.innerText)).toFixed(10);
 
     resultEl.innerText = eval(resultEl.innerText);
-
 }
 
 
-function getSlicedValue(x) {
+function getSlicedValue(value) {
     let resultEl = document.getElementById('result');
-    resultEl.innerText = resultEl.innerText.slice(0, -1) + x;
+    resultEl.innerText = resultEl.innerText.slice(0, -1) + value;
 }
 
 
-function compute(x) {
+function joinValues(value) {
     let resultEl = document.getElementById('result');
-    resultEl.innerText += x;
+    resultEl.innerText += value;
 }
-
 
 
 function getButton(e) {
@@ -59,34 +58,43 @@ function getButton(e) {
     let lastTwoLetter = resultEl.innerText.slice(-2);
     let afterLastDot = resultEl.innerText.slice(resultEl.innerText.lastIndexOf('.') + 1);
 
+    let eValueIsOperator = operators.some(operator => operator === eValue);
+    let eValueIsLastOperator = operators.some(operator => operator === lastLetter);
+    let lastIsOperatorAndZero = frontOfZero.some(operatorAndZero => operatorAndZero === lastTwoLetter)
+
     if (resultEl.innerText.length == 16) return alert("You have reached maximum length size😕");
 
-    if (resultEl.innerText === '' && (operators.some(operator => operator === eValue))) return;
+    if (resultEl.innerText === '' && eValueIsOperator)
+        return;
 
-    if (operators.some(operator => operator === eValue) && operators.some(operator => operator === lastLetter))
+    if (eValueIsOperator && eValueIsLastOperator)
         return getSlicedValue(eValue);
 
-    if ((eValue === '.' && lastLetter === ('.')) || (eValue === '0' && resultEl.innerText == '0')) return;
+    if ((eValue === '.' && lastLetter === ('.')) || (eValue === '0' && resultEl.innerText == '0'))
+        return;
 
-    if (eValue === '0' && (frontOfZero.some(operatorAndZero => operatorAndZero === lastTwoLetter))) return;
+    if (eValue === '0' && lastIsOperatorAndZero)
+        return;
 
-    if (resultEl.innerText == '0' && (eValue === '.' || operators.some(operator => operator === eValue)))
-        return compute(eValue);
+    if (resultEl.innerText == '0' && (eValue === '.' || eValueIsOperator))
+        return joinValues(eValue);
 
-    if ((eValue !== '0' && resultEl.innerText == '0') || ((lastLetter === ('.') && (operators.some(operator => operator === eValue)))))
+    if ((eValue !== '0' && resultEl.innerText == '0') || ((lastLetter === ('.') && eValueIsOperator)))
         return getSlicedValue(eValue);
 
-    if (operators.some(operator => operator === eValue) && (frontOfZero.some(operatorAndZero => operatorAndZero === lastTwoLetter)))
-        return compute(eValue);
+    if (eValueIsOperator && lastIsOperatorAndZero)
+        return joinValues(eValue);
 
-    if (eValue !== '.' && (frontOfZero.some(operatorAndZero => operatorAndZero === lastTwoLetter)))
+    if (eValue !== '.' && lastIsOperatorAndZero)
         return getSlicedValue(eValue);
 
-    if ((eValue === '.' && resultEl.innerText == '') || (eValue === '.' && (operators.some(operator => operator === lastLetter)))) return resultEl.innerText += '0.';
+    if ((eValue === '.' && resultEl.innerText == '') || (eValue === '.' && eValueIsLastOperator))
+        return resultEl.innerText += '0.';
 
-    if (eValue === '.' && resultEl.innerText.lastIndexOf('.') !== -1 && !(operators.some(operator => afterLastDot.includes(operator)))) return;
+    if (eValue === '.' && resultEl.innerText.lastIndexOf('.') !== -1 && !(operators.some(operator => afterLastDot.includes(operator))))
+        return;
 
-    compute(eValue);
+    joinValues(eValue);
 }
 
 function deleteNumber() {
