@@ -13,19 +13,25 @@ function clearAll() {
 function calculateResult() {
     let resultEl = document.getElementById('result');
     let displayEl = document.getElementById('display');
-    // let lastLetter = (resultEl.innerText.slice(-1) == ('+' || '-' || '/' || '*'));
+    displayEl.innerText = '';
+
+    let operators = ['+', '-', '/', '*', '.'];
     let lastLetter = resultEl.innerText.slice(-1);
 
     if (!resultEl.innerText) return;
 
-    if (lastLetter === '+' || lastLetter === '-' || lastLetter === '*' || lastLetter === '/' || lastLetter === '.')
+    if (operators.some(operator => operator === lastLetter))
         return alert(`Cann't be end with ' ${lastLetter} '`);
 
     if (resultEl.innerText == '0/0') return resultEl.innerText = '0';
 
     displayEl.innerText += resultEl.innerText + '=';
 
+    // if (eval(resultEl.innerText).length > 16)
+    //     return resultEl.innerText = parseFloat(eval(resultEl.innerText)).toFixed(15);
+
     resultEl.innerText = eval(resultEl.innerText);
+
 }
 
 
@@ -41,41 +47,44 @@ function compute(x) {
 }
 
 
+
 function getButton(e) {
     let resultEl = document.getElementById('result');
     let eValue = e.getAttribute('value');
+
+    let operators = ['+', '-', '/', '*'];
+    let frontOfZero = ['+0', '-0', '/0', '*0'];
 
     let lastLetter = resultEl.innerText.slice(-1);
     let lastTwoLetter = resultEl.innerText.slice(-2);
     let afterLastDot = resultEl.innerText.slice(resultEl.innerText.lastIndexOf('.') + 1);
 
-    // let gggg = resultEl.innerText.slice(-2) == ('+0' || '-0' || '/0' || '*0');
+    if (resultEl.innerText.length == 16) return alert("You have reached maximum length size😕");
 
-    if (resultEl.innerText === '' && (e.innerText === '+' || e.innerText === '-' || e.innerText === '÷' || e.innerText === 'x')) return;
+    if (resultEl.innerText === '' && (operators.some(operator => operator === eValue))) return;
 
-
-    if ((eValue === '+' || eValue === '-' || eValue === '/' || eValue === '*') && (lastLetter === ('+') || lastLetter === ('-') || lastLetter === ('*') || lastLetter === ('/')))
+    if (operators.some(operator => operator === eValue) && operators.some(operator => operator === lastLetter))
         return getSlicedValue(eValue);
 
     if ((eValue === '.' && lastLetter === ('.')) || (eValue === '0' && resultEl.innerText == '0')) return;
 
-    // if (eValue === '0' && (lastTwoLetter == ('+0' || '-0' || '/0' || '*0'))) return;  // ესე დაწერისას ('+0' || '-0' || '/0' || '*0') არ მუშაობს
-    if (eValue === '0' && (lastTwoLetter == ('+0') || lastTwoLetter == '-0' || lastTwoLetter == '/0' || lastTwoLetter == '*0')) return;
+    if (eValue === '0' && (frontOfZero.some(operatorAndZero => operatorAndZero === lastTwoLetter))) return;
 
-    if (resultEl.innerText == '0' && (eValue === '.' || eValue === '+' || eValue === '-' || eValue === '/' || eValue === '*'))
+    if (resultEl.innerText == '0' && (eValue === '.' || operators.some(operator => operator === eValue)))
         return compute(eValue);
 
-    if ((eValue !== '0' && resultEl.innerText == '0') || (lastLetter === ('.') && (eValue == ('+') || eValue == ('-') || eValue == ('*') || eValue == ('/'))))
+    if ((eValue !== '0' && resultEl.innerText == '0') || ((lastLetter === ('.') && (operators.some(operator => operator === eValue)))))
         return getSlicedValue(eValue);
 
-    if (eValue !== '.' && (lastTwoLetter == ('+0') || lastTwoLetter == '-0' || lastTwoLetter == '/0' || lastTwoLetter == '*0'))
+    if (operators.some(operator => operator === eValue) && (frontOfZero.some(operatorAndZero => operatorAndZero === lastTwoLetter)))
+        return compute(eValue);
+
+    if (eValue !== '.' && (frontOfZero.some(operatorAndZero => operatorAndZero === lastTwoLetter)))
         return getSlicedValue(eValue);
 
-    if ((eValue === '.' && resultEl.innerText == '') || (eValue === '.' && (lastLetter === ('+') || lastLetter === ('-') || lastLetter === ('/') || lastLetter === ('*')))) return resultEl.innerText += '0.';
+    if ((eValue === '.' && resultEl.innerText == '') || (eValue === '.' && (operators.some(operator => operator === lastLetter)))) return resultEl.innerText += '0.';
 
-    // if (eValue === '.' && resultEl.innerText.lastIndexOf('.') !== -1 && !(resultEl.innerText.slice(resultEl.innerText.lastIndexOf('.') + 1).includes('+' || '-' || '*' || '/'))) return;
-    if (eValue === '.' && resultEl.innerText.lastIndexOf('.') !== -1 && !(afterLastDot.includes('-') || afterLastDot.includes('+') || afterLastDot.includes('/') || afterLastDot.includes('*'))) return;
-
+    if (eValue === '.' && resultEl.innerText.lastIndexOf('.') !== -1 && !(operators.some(operator => afterLastDot.includes(operator)))) return;
 
     compute(eValue);
 }
