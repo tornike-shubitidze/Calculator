@@ -24,14 +24,17 @@ function calculateResult() {
     if (operators.some(operator => operator === lastLetter))
         return alert(`Cann't be end with ' ${lastLetter} '`);
 
-    if (resultEl.innerText == '0/0') return resultEl.innerText = '0';
+    if (resultEl.innerText == '0/0')
+        return resultEl.innerText = '0';
 
     displayEl.innerText += resultEl.innerText + '=';
 
-    if (isFinite(eval(resultEl.innerText)))
-        return resultEl.innerText = parseFloat(eval(resultEl.innerText)).toFixed(10);
+    let result = eval(resultEl.innerText);
 
-    resultEl.innerText = eval(resultEl.innerText);
+    if (result.toString().length > 15)
+        return resultEl.innerText = parseFloat(result).toFixed(10);
+
+    resultEl.innerText = result;
 }
 
 
