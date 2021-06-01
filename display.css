@@ -94,3 +94,19 @@ body {
     padding: 1.5% 1.5%;
   }
 }
+
+@media (min-width: 501px) and (max-width: 768px) {
+  #frame {
+    padding: 1% 1%;
+    margin: auto;
+    width: 50%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1300px) {
+  #frame {
+    padding: 1% 1%;
+    margin: auto;
+    width: 30%;
+  }
+}
