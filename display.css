@@ -91,5 +91,6 @@ body {
   #frame {
     width: 95.5%;
     height: 550px;
+    padding: 1.5% 1.5%;
   }
 }
