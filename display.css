@@ -67,6 +67,7 @@ body {
   font-size: 220%;
   cursor: pointer;
   color: tomato;
+  background: white;
 }
 
 .operation {
