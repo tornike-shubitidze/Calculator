@@ -85,3 +85,10 @@ body {
 #delete-btn {
   background-color: palegreen;
 }
+
+@media (max-width: 500px) {
+  #frame {
+    width: 95.5%;
+    height: 550px;
+  }
+}
